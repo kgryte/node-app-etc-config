@@ -125,7 +125,6 @@ bool = config.set( 'abcdefg', config2 );
 The method accepts the following `options`: 
 
 *	__sep__: keypath separator used when setting configuration values. See [utils-deep-set](https://github.com/kgryte/utils-deep-set).
-*	__create__: `boolean` indicating whether to create a keypath if it does not exist. See [utils-deep-set](https://github.com/kgryte/utils-deep-set).
 
 Specifying method `options` will override the default `options` provided during `config` creation.
 
