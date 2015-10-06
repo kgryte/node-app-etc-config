@@ -4,6 +4,7 @@
 // MODULES //
 
 var chai = require( 'chai' ),
+	etc = require( './../lib' ),
 	set = require( './../lib/set.js' );
 
 
@@ -20,13 +21,7 @@ describe( 'set', function tests() {
 	var ctx;
 
 	beforeEach( function before() {
-		ctx = {
-			'_db': {},
-			'_opts': {
-				'sep': '.',
-				'create': true
-			}
-		};
+		ctx = etc();
 	});
 
 	it( 'should export a function', function test() {
@@ -53,28 +48,29 @@ describe( 'set', function tests() {
 		}
 		function badValue( value ) {
 			return function badValue() {
-				set( 'beep', 'boop', value );
+				set.call( ctx, 'beep', 'boop', value );
 			};
 		}
 	});
 
 	it( 'should set a configuration value', function test() {
-		set.call( ctx, 'beep', 'hello' );
-		assert.strictEqual( ctx._db.beep, 'hello' );
+		var bool = set.call( ctx, 'beep', 'hello' );
+		assert.isBoolean( bool );
+		assert.strictEqual( ctx.get().beep, 'hello' );
 	});
 
 	it( 'should set a configuration value using a specified keypath separator', function test() {
 		set.call( ctx, 'beep|boop', 'hello', {
 			'sep': '|'
 		});
-		assert.strictEqual( ctx._db.beep.boop, 'hello' );
+		assert.strictEqual( ctx.get().beep.boop, 'hello' );
 	});
 
 	it( 'should not set a configuration value if provided a `create` option set to `false`', function test() {
 		set.call( ctx, 'beep.boop', 'hello', {
 			'create': false
 		});
-		assert.deepEqual( ctx._db, {} );
+		assert.deepEqual( ctx.get(), {} );
 	});
 
 });
