@@ -1,0 +1,5 @@
+# Server port:
+port = 7331
+
+# Server address:
+address = "127.0.0.1"
