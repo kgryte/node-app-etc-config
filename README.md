@@ -42,11 +42,11 @@ var config = etc({
 
 ##### config.set( keypath, value[, options] )
 
-Sets a configuration value at a provided `keypath`.
+Sets a configuration value at a specified `keypath`.
 
 ``` javascript
 var bool = config.set( 'foo.bar', 'beep' );
-// returns <boolean> indicating whether a value was set
+// returns a <boolean> indicating whether a value was set
 
 /*
 	{
@@ -67,12 +67,13 @@ Specifying method `options` will override the default `options` provided during 
 
 ##### config.merge( [keypath,] config[, options] )
 
-Merges another `config` instance or a configuration `object`.
+Merges a configuration `object` or another `config` instance.
 
 ``` javascript
-config.merge({
+var bool = config.merge({
 	'beep': 'boop'
 });
+// returns a <boolean> indicating if merge was successful
 /*
 	{
 		'foo': {
@@ -89,7 +90,7 @@ If provided a `keypath`, the method merges a configuration object with a sub-con
 var config2 = etc();
 config2.set( 'hello', 'world' );
 
-config.merge( 'foo', config2 );
+var bool = config.merge( 'foo', config2 );
 /*
 	{
 		'foo': {
@@ -101,6 +102,26 @@ config.merge( 'foo', config2 );
 */
 ```
 
+If a `keypath` does not correspond to an `object`, the method returns `false` and `set()` should be used instead.
+
+``` javascript
+var bool = config.merge( 'abcdefg', config2 );
+// returns false
+
+/*
+	{
+		'foo': {
+			'bar': 'beep',
+			'hello': 'world'
+		},
+		'beep': 'boop'
+	}
+*/
+
+bool = config.set( 'abcdefg', config2 );
+// returns true
+```
+
 The method accepts the following `options`: 
 
 *	__sep__: keypath separator used when setting configuration values. See [utils-deep-set](https://github.com/kgryte/utils-deep-set).
@@ -110,7 +131,7 @@ Specifying method `options` will override the default `options` provided during 
 
 
 
-##### config( [ keypath[, options] ] )
+##### config.get( [ keypath[, options] ] )
 
 Returns a copy of the raw configuration store. 
 
@@ -145,7 +166,7 @@ Specifying method `options` will override the default `options` provided during 
 
 Clones a `config` instance.
 
-``` javscript
+``` javascript
 var config2 = config.clone();
 console.log( config2.get() );
 /*
@@ -194,7 +215,7 @@ Specifying method `options` will override the default `options` provided during 
 
 ##### config.load( filename )
 
-Loads and merges a configuration file.
+Convenience method which loads and merges a configuration file.
 
 ``` javascript
 config.load( '/path/to/config/file.<ext>' );
@@ -216,7 +237,7 @@ config.merge( 'foo', obj );
 Returns a list of supported filename extensions.
 
 ``` javascript
-var exts = load.exts();
+var exts = etc.exts();
 // returns ['.json','.toml',...]
 ```
 
@@ -245,10 +266,10 @@ var parser = require( 'my-special-fmt-parser' );
 etc.parser( '<my-ext>', parser );
 ```
 
-Once a parser is set, all configuration APIs will parse provided files accordingly.
+Once a parser is set, all `config` instances will parse provided files accordingly.
 
 ``` javascript
-var config = load( './file.<my-ext>' );
+config.load( './file.<my-ext>' );
 ```
 
 For more details, see [app-etc-load](https://github.com/kgryte/node-app-etc-load).
@@ -271,13 +292,13 @@ config.load( './package.json' );
 console.dir( config.get() );
 
 // Merge in a custom object:
-config.merge( 'custom', {
+config.merge( 'author', {
 	'beep': 'boop'
 });
-console.dir( config.get() );
+console.dir( config.get( 'author' ) );
 
 // Access a shallow value:
-console.log( config.get( 'beep' ) );
+console.log( config.get( 'license' ) );
 
 // Access nested values:
 console.log( config.get( 'author.name' ) );
