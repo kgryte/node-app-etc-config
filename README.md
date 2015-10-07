@@ -74,6 +74,7 @@ var bool = config.merge({
 	'beep': 'boop'
 });
 // returns a <boolean> indicating if merge was successful
+
 /*
 	{
 		'foo': {
@@ -265,7 +266,7 @@ var parser = require( 'my-special-fmt-parser' );
 etc.parser( '<my-ext>', parser );
 ```
 
-Once a parser is set, all `config` instances will parse provided files accordingly.
+Once a parser is set, __all__ `config` instances will parse provided files accordingly.
 
 ``` javascript
 config.load( './file.<my-ext>' );
