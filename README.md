@@ -46,6 +46,7 @@ var config = etc({
 });
 ```
 
+===
 ##### config.set( keypath, value[, options] )
 
 Sets a configuration value at a specified `keypath`.
@@ -71,6 +72,7 @@ The method accepts the following `options`:
 Specifying method `options` will override the default `options` provided during `config` creation.
 
 
+===
 ##### config.merge( [keypath,] config[, options] )
 
 Merges a configuration `object` or another `config` instance.
@@ -136,7 +138,7 @@ The method accepts the following `options`:
 Specifying method `options` will override the default `options` provided during `config` creation.
 
 
-
+===
 ##### config.get( [ keypath[, options] ] )
 
 Returns a __copy__ of the raw configuration store. 
@@ -175,6 +177,7 @@ The method accepts the following `options`:
 Specifying method `options` will override the default `options` provided during `config` creation.
 
 
+===
 ##### config.clone( [keypath[, options] ] )
 
 Clones a `config` instance.
@@ -233,6 +236,7 @@ The method accepts the following `options`:
 Specifying method `options` will override the default `options` provided during `config` creation.
 
 
+===
 ##### config.load( filename )
 
 Convenience method which loads and merges a configuration file.
@@ -250,7 +254,7 @@ var obj = load( '/path/to/config/file.<ext>' );
 config.merge( 'foo', obj );
 ```
 
-
+===
 ##### config.validate( [validator] )
 
 Validates a configuration.
@@ -297,7 +301,7 @@ var out = config.validate();
 ```
 
 
-
+===
 #### etc.exts()
 
 Returns a list of supported filename extensions.
