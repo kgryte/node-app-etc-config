@@ -286,7 +286,7 @@ console.log( out );
 console.log( validate.errors );
 ```
 
-If a `schema` option was __not__ provided during initialization and a `validator` is not provided at runtime, the method __always__ returns `true`.
+If a `schema` option was __not__ provided during initialization and a `validator` is __not__ provided at runtime, the method __always__ returns `true`.
 
 ``` javascript
 var config = etc();
