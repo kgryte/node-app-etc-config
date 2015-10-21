@@ -4,6 +4,9 @@
 // MODULES //
 
 var chai = require( 'chai' ),
+	path = require( 'path' ),
+	validator = require( 'is-my-json-valid' ),
+	etc = require( './../lib' ),
 	validate = require( './../lib/validate.js' );
 
 
@@ -17,13 +20,19 @@ var expect = chai.expect,
 
 describe( 'validate', function tests() {
 
+	var fixture,
+		schema;
+
+	fixture = path.join( __dirname, 'fixtures/config.toml' );
+	schema = require( './fixtures/schema.json' );
+
 	it( 'should export a function', function test() {
 		expect( validate ).to.be.a( 'function' );
 	});
 
-	it( 'should return an error if provided an options argument which is not a function', function test() {
+	it( 'should throw an error if provided a validator which is not a function', function test() {
 		var values,
-			err,
+			ctx,
 			i;
 
 		values = [
@@ -34,82 +43,89 @@ describe( 'validate', function tests() {
 			undefined,
 			true,
 			[],
-			function(){}
+			{}
 		];
 
+		ctx = etc();
 		for ( i = 0; i < values.length; i++ ) {
-			err = validate( {}, values[ i ], values[ i ] );
-			assert.isTrue( err instanceof TypeError );
+			expect( badValue( values[ i ] ) ).to.throw( TypeError );
+		}
+		function badValue( value ) {
+			return function badValue() {
+				validate.call( ctx, value );
+			};
 		}
 	});
 
-	it( 'should return an error if provided a `sep` option which is not a string primitive', function test() {
-		var values,
-			err,
-			i;
+	it( 'should validate a valid configuration', function test() {
+		var out,
+			ctx;
 
-		values = [
-			5,
-			NaN,
-			null,
-			undefined,
-			true,
-			[],
-			{},
-			function(){}
-		];
+		ctx = etc({
+			'schema': schema
+		});
+		ctx.load( fixture );
+		out = validate.call( ctx );
 
-		for ( i = 0; i < values.length; i++ ) {
-			err = validate( {}, {
-				'sep': values[ i ]
-			}, values[ i ] );
-			assert.isTrue( err instanceof TypeError );
-		}
+		assert.isTrue( out );
 	});
 
-	it( 'should return an error if provided a `create` option which is not a boolean primitive', function test() {
-		var values,
-			err,
-			i;
+	it( 'should validate an invalid configuration', function test() {
+		var out,
+			ctx;
 
-		values = [
-			'5',
-			5,
-			NaN,
-			null,
-			undefined,
-			[],
-			{},
-			function(){}
-		];
+		ctx = etc({
+			'schema': schema
+		});
+		ctx.merge({
+			'port': 80
+		});
+		out = validate.call( ctx );
 
-		for ( i = 0; i < values.length; i++ ) {
-			err = validate( {}, {
-				'create': values[ i ]
-			}, values[ i ] );
-			assert.isTrue( err instanceof TypeError );
-		}
+		assert.isArray( out );
+		assert.strictEqual( out.length, 1 );
 	});
 
-	it( 'should return `null` if all options are valid', function test() {
-		var opts,
-			err;
+	it( 'should validate a valid configuration (external validator)', function test() {
+		var ctx,
+			out,
+			v;
 
-		opts = {
-			'sep': '|',
-			'create': false
-		};
+		ctx = etc({
+			'schema': schema
+		});
+		ctx.load( fixture );
+		v = validator( schema );
+		out = validate.call( ctx, v );
 
-		err = validate( {}, opts );
-		assert.isNull( err );
+		assert.isTrue( out );
+	});
 
-		// Unrecognized options:
-		opts = {
-			'beep': 'boop'
-		};
+	it( 'should validate an invalid configuration (external validator)', function test() {
+		var ctx,
+			out,
+			v;
 
-		err = validate( {}, opts );
-		assert.isNull( err );
+		ctx = etc({
+			'schema': schema
+		});
+		ctx.merge({
+			'address': false
+		});
+		v = validator( schema, {
+			'greedy': true,
+			'verbose': true
+		});
+		out = validate.call( ctx, v );
+
+		assert.isFalse( out );
+		assert.strictEqual( v.errors.length, 2 );
+	});
+
+	it( 'should return true if never provided either a schema or validator', function test() {
+		var ctx = etc();
+		ctx.load( fixture );
+		assert.isTrue( validate.call( ctx ) );
 	});
 
 });

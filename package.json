@@ -46,12 +46,14 @@
   },
   "dependencies": {
     "app-etc-load": "0.0.0",
+    "is-my-json-valid": "^2.12.2",
     "type-name": "^1.0.1",
     "utils-copy": "^1.0.0",
     "utils-deep-get": "^1.0.0",
     "utils-deep-set": "^1.0.1",
     "utils-merge2": "^1.0.0",
     "validate.io-boolean-primitive": "^1.0.0",
+    "validate.io-function": "^1.0.2",
     "validate.io-object": "^1.0.4",
     "validate.io-string-primitive": "^1.0.0"
   },
