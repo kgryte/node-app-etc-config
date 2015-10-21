@@ -72,9 +72,9 @@ describe( 'clone', function tests() {
 		});
 	});
 
-	it( 'should return `null` if a keypath does not exist', function test() {
+	it( 'should return `undefined` if a keypath does not exist', function test() {
 		var config = clone.call( ctx, 'beep.bop' );
-		assert.isNull( config );
+		assert.isUndefined( config );
 	});
 
 });

@@ -155,7 +155,7 @@ var val = config.get( 'foo.hello' );
 // returns 'world'
 ```
 
-If a `keypath` does __not exist__, the method returns `undefined`.
+If a `keypath` does __not__ exist, the method returns `undefined`.
 
 ``` javascript
 var val = config.get( 'non.existent.path' );
@@ -190,7 +190,7 @@ console.log( config === config2 );
 // returns false
 ```
 
-If provided a `keypath`, clones a  sub-configuration value as a new `config` instance.
+If provided a `keypath`, the method clones a  sub-configuration value as a new `config` instance.
 
 ``` javascript
 var config2;
@@ -211,6 +211,13 @@ config2 = config.clone( 'beep' );
 		'beep': 'boop'
 	}
 */
+```
+
+If a `keypath` does __not__ exist, the method returns `undefined`.
+
+``` javascript
+var config3 = config.clone( 'non.existent.path' );
+// returns undefined
 ```
 
 The method accepts the following `options`: 
