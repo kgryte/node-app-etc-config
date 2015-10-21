@@ -30,13 +30,19 @@ The constructor accepts the following `options`:
 
 *	__sep__: default keypath separator used when getting and setting configuration values. See [utils-deep-set](https://github.com/kgryte/utils-deep-set) and [utils-deep-get](https://github.com/kgryte/utils-deep-get). Default: `'.'`.
 *	__create__: `boolean` indicating whether to create a keypath if it does not exist. See [utils-deep-set](https://github.com/kgryte/utils-deep-set). Default: `true`.
+*	__schema__: JSON [schema](http://json-schema.org/) for validating a configuration.
+*	__formats__: JSON [schema](http://json-schema.org/) custom formats (see [is-my-json-valid](https://github.com/mafintosh/is-my-json-valid#custom-formats)).
 
 To specify `options`,
 
 ``` javascript
 var config = etc({
 	'sep': '|',
-	'create': false
+	'create': false,
+	'schema': require( '/path/to/schema.json' ),
+	'formats': {
+		'only-a': /^a+$/
+	}
 });
 ```
 
@@ -242,6 +248,52 @@ var load = require( 'app-etc-load' );
 
 var obj = load( '/path/to/config/file.<ext>' );
 config.merge( 'foo', obj );
+```
+
+
+##### config.validate( [validator] )
+
+Validates a configuration.
+
+``` javascript
+// Valid configuration:
+var out = config.validate();
+// returns true
+```
+
+If a configuration is invalid, the method returns an `array` containing validation errors.
+
+``` javascript
+// Invalid configuration:
+out = config.validate();
+// returns [{...},{...},...]
+```
+
+If a `schema` option was __not__ provided during initialization, the method __always__ returns `true`.
+
+``` javascript
+var config = etc();
+config.set( 'port', 80 );
+
+var out = config.validate();
+// returns true
+```
+
+The method accepts a `validator` function, which can be useful for validating against multiple schemas or when a `schema` was not provided during initialization. The `validator` should accept as its first argument the configuration `object` to be validated. The method returns validation results without modification. 
+
+``` javascript
+// Example JSON schema validator:
+var validator = require( 'is-my-json-valid' );
+
+var schema = require( '/path/to/schema.json' );
+var validate = validator( schema, {
+	'verbose': true,
+	'greedy': true
+});
+
+var out = config.validate( validate );
+console.log( out );
+console.log( validate.errors );
 ```
 
 
