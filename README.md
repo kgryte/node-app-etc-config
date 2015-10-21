@@ -269,16 +269,6 @@ out = config.validate();
 // returns [{...},{...},...]
 ```
 
-If a `schema` option was __not__ provided during initialization, the method __always__ returns `true`.
-
-``` javascript
-var config = etc();
-config.set( 'port', 80 );
-
-var out = config.validate();
-// returns true
-```
-
 The method accepts a `validator` function, which can be useful for validating against multiple schemas or when a `schema` was not provided during initialization. The `validator` should accept as its first argument the configuration `object` to be validated. The method returns validation results without modification. 
 
 ``` javascript
@@ -294,6 +284,16 @@ var validate = validator( schema, {
 var out = config.validate( validate );
 console.log( out );
 console.log( validate.errors );
+```
+
+If a `schema` option was __not__ provided during initialization and a `validator` is not provided at runtime, the method __always__ returns `true`.
+
+``` javascript
+var config = etc();
+config.set( 'port', 80 );
+
+var out = config.validate();
+// returns true
 ```
 
 
