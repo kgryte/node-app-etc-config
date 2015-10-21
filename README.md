@@ -133,7 +133,7 @@ Specifying method `options` will override the default `options` provided during 
 
 ##### config.get( [ keypath[, options] ] )
 
-Returns a copy of the raw configuration store. 
+Returns a __copy__ of the raw configuration store. 
 
 ``` javascript
 var obj = config.get();
@@ -148,11 +148,18 @@ var obj = config.get();
 */
 ```
 
-If provided a `keypath`, returns a copy of the corresponding configuration value.
+If provided a `keypath`, the method returns a __copy__ of the corresponding configuration value.
 
 ``` javascript
 var val = config.get( 'foo.hello' );
 // returns 'world'
+```
+
+If a `keypath` does __not exist__, the method returns `undefined`.
+
+``` javascript
+var val = config.get( 'non.existent.path' );
+// returns undefined
 ```
 
 The method accepts the following `options`: 

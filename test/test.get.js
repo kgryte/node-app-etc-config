@@ -36,9 +36,9 @@ describe( 'get', function tests() {
 			'beep': 'boop'
 		});
 
-		// Should be a copy:
+		// Should be a copy, thus preventing mutation:
 		val.hello = 'world';
-		assert.isNull( ctx.get( 'hello' ) );
+		assert.isUndefined( ctx.get( 'hello' ) );
 	});
 
 	it( 'should get a configuration value', function test() {
@@ -55,9 +55,9 @@ describe( 'get', function tests() {
 		assert.strictEqual( val, 'bop' );
 	});
 
-	it( 'should return `null` if a keypath does not exist', function test() {
+	it( 'should return `undefined` if a keypath does not exist', function test() {
 		var val = get.call( ctx, 'beep.boop.bop.bup.bip' );
-		assert.isNull( val );
+		assert.isUndefined( val );
 	});
 
 });
