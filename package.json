@@ -45,7 +45,7 @@
     "url": "https://github.com/kgryte/node-app-etc-config/issues"
   },
   "dependencies": {
-    "app-etc-load": "0.0.0",
+    "app-etc-load": "^1.0.1",
     "is-my-json-valid": "^2.12.2",
     "type-name": "^1.0.1",
     "utils-copy": "^1.0.0",
