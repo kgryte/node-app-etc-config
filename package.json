@@ -1,70 +1,74 @@
 {
-  "name": "app-etc-config",
-  "version": "0.0.3",
-  "description": "Creates a configuration API.",
-  "author": {
-    "name": "Athan Reines",
-    "email": "kgryte@gmail.com"
-  },
-  "contributors": [
-    {
-      "name": "Athan Reines",
-      "email": "kgryte@gmail.com"
-    }
-  ],
-  "scripts": {
-    "test": "mocha",
-    "test-cov": "istanbul cover ./node_modules/.bin/_mocha --dir ./reports/coverage -- -R spec",
-    "codecov": "istanbul cover ./node_modules/.bin/_mocha --dir ./reports/codecov/coverage --report lcovonly -- -R spec && cat ./reports/codecov/coverage/lcov.info | codecov && rm -rf ./reports/codecov"
-  },
-  "main": "./lib",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/kgryte/node-app-etc-config.git"
-  },
-  "keywords": [
-    "app",
-    "etc",
-    "config",
-    "configuration",
-    "settings",
-    "env",
-    "load",
-    "parse",
-    "utils",
-    "utility",
-    "json",
-    "yml",
-    "yaml",
-    "toml",
-    "ini",
-    "cjson",
-    "alce"
-  ],
-  "bugs": {
-    "url": "https://github.com/kgryte/node-app-etc-config/issues"
-  },
-  "dependencies": {
-    "app-etc-load": "^1.0.1",
-    "is-my-json-valid": "^2.12.2",
-    "type-name": "^1.0.1",
-    "utils-copy": "^1.0.0",
-    "utils-deep-get": "^1.0.0",
-    "utils-deep-set": "^1.0.1",
-    "utils-merge2": "^1.0.0",
-    "validate.io-boolean-primitive": "^1.0.0",
-    "validate.io-function": "^1.0.2",
-    "validate.io-object": "^1.0.4",
-    "validate.io-string-primitive": "^1.0.0"
-  },
-  "devDependencies": {
-    "chai": "3.x.x",
-    "codecov.io": "^0.1.5",
-    "istanbul": "^0.3.0",
-    "jshint": "2.x.x",
-    "jshint-stylish": "2.x.x",
-    "mocha": "2.x.x",
-    "validate.io-string-array": "^1.0.0"
-  },
-  "license": "MIT"
+	"name": "app-etc-config",
+	"version": "0.0.3",
+	"description": "Creates a configuration API.",
+	"author": {
+		"name": "Athan Reines",
+		"email": "kgryte@gmail.com"
+	},
+	"contributors": [
+		{
+			"name": "Athan Reines",
+			"email": "kgryte@gmail.com"
+		}
+	],
+	"scripts": {
+		"test": "mocha",
+		"test-cov": "istanbul cover ./node_modules/.bin/_mocha --dir ./reports/coverage -- -R spec",
+		"codecov": "istanbul cover ./node_modules/.bin/_mocha --dir ./reports/codecov/coverage --report lcovonly -- -R spec && cat ./reports/codecov/coverage/lcov.info | codecov && rm -rf ./reports/codecov"
+	},
+	"main": "./lib",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/kgryte/node-app-etc-config.git"
+	},
+	"keywords": [
+		"app",
+		"etc",
+		"config",
+		"configuration",
+		"conf",
+		"settings",
+		"env",
+		"load",
+		"parse",
+		"utils",
+		"utility",
+		"json",
+		"yml",
+		"yaml",
+		"toml",
+		"ini",
+		"cjson",
+		"alce",
+		"json5",
+		"hjson",
+		"properties"
+	],
+	"bugs": {
+		"url": "https://github.com/kgryte/node-app-etc-config/issues"
+	},
+	"dependencies": {
+		"app-etc-load": "^1.0.1",
+		"is-my-json-valid": "^2.12.2",
+		"type-name": "^1.0.1",
+		"utils-copy": "^1.0.0",
+		"utils-deep-get": "^1.0.0",
+		"utils-deep-set": "^1.0.1",
+		"utils-merge2": "^1.0.0",
+		"validate.io-boolean-primitive": "^1.0.0",
+		"validate.io-function": "^1.0.2",
+		"validate.io-object": "^1.0.4",
+		"validate.io-string-primitive": "^1.0.0"
+	},
+	"devDependencies": {
+		"chai": "3.x.x",
+		"codecov.io": "^0.1.5",
+		"istanbul": "^0.3.0",
+		"jshint": "2.x.x",
+		"jshint-stylish": "2.x.x",
+		"mocha": "2.x.x",
+		"validate.io-string-array": "^1.0.0"
+	},
+	"license": "MIT"
 }
