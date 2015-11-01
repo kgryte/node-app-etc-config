@@ -32,6 +32,7 @@
     "env",
     "load",
     "parse",
+    "validate",
     "utils",
     "utility",
     "json",
@@ -49,8 +50,8 @@
     "url": "https://github.com/kgryte/node-app-etc-config/issues"
   },
   "dependencies": {
-    "app-etc-load": "^1.0.1",
-    "is-my-json-valid": "^2.12.2",
+    "app-etc-load": "1.x.x",
+    "jsen": "^0.6.0",
     "type-name": "^1.0.1",
     "utils-copy": "^1.0.0",
     "utils-deep-get": "^1.0.0",

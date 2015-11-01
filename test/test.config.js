@@ -5,7 +5,6 @@
 
 var chai = require( 'chai' ),
 	path = require( 'path' ),
-	typeName = require( 'type-name' ),
 	Config = require( './../lib/config.js' );
 
 
@@ -56,7 +55,7 @@ describe( 'Config', function tests() {
 		assert.isTrue( createConfig({}) instanceof Config );
 	});
 
-	xit( 'should support external schemas', function test() {
+	it( 'should support external schemas', function test() {
 		var config,
 			out;
 
@@ -64,7 +63,7 @@ describe( 'Config', function tests() {
 			'schema': {
 				'$ref': '#external_schema'
 			},
-			'ext': {
+			'extSchemas': {
 				'external_schema': require( './fixtures/schema.json' )
 			}
 		});
@@ -76,7 +75,7 @@ describe( 'Config', function tests() {
 			'schema': {
 				'$ref': '#external_schema'
 			},
-			'ext': {
+			'extSchemas': {
 				'external_schema': require( './fixtures/schema.json' )
 			}
 		});
@@ -104,8 +103,10 @@ describe( 'Config', function tests() {
 		});
 		out = config.validate();
 		assert.isArray( out );
+
 		assert.strictEqual( out.length, 1 );
-		assert.strictEqual( out[ 0 ].field, 'data.str' );
+		assert.strictEqual( out[ 0 ].path, 'str' );
+		assert.strictEqual( out[ 0 ].keyword, 'format' );
 	});
 
 	it( 'should validate greedily', function test() {

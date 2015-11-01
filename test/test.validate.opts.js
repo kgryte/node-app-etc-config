@@ -139,6 +139,19 @@ describe( 'validate options', function tests() {
 		}
 	});
 
+	it( 'should return an error if provided an invalid schema', function test() {
+		var err = validate( {}, {
+			'schema': {
+				'type': 'object',
+				'properties': [ // invalid
+					'string',
+					'number'
+				]
+			}
+		});
+		assert.isTrue( err instanceof Error );
+	});
+
 	it( 'should return an error if provided a formats option which is not an object', function test() {
 		var values,
 			err,
@@ -181,7 +194,7 @@ describe( 'validate options', function tests() {
 
 		for ( i = 0; i < values.length; i++ ) {
 			err = validate( {}, {
-				'ext': values[ i ]
+				'extSchemas': values[ i ]
 			});
 			assert.isTrue( err instanceof TypeError );
 		}
@@ -194,7 +207,7 @@ describe( 'validate options', function tests() {
 		opts = {
 			'schema': {},
 			'formats': {},
-			'ext': {},
+			'extSchemas': {},
 			'sep': '|',
 			'create': false
 		};

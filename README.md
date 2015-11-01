@@ -31,7 +31,8 @@ The constructor accepts the following `options`:
 *	__sep__: default keypath separator used when getting and setting configuration values. See [utils-deep-set](https://github.com/kgryte/utils-deep-set) and [utils-deep-get](https://github.com/kgryte/utils-deep-get). Default: `'.'`.
 *	__create__: `boolean` indicating whether to create a keypath if it does not exist. See [utils-deep-set](https://github.com/kgryte/utils-deep-set). Default: `true`.
 *	__schema__: JSON [schema](http://json-schema.org/) for validating a configuration.
-*	__formats__: JSON [schema](http://json-schema.org/) custom formats (see [is-my-json-valid](https://github.com/mafintosh/is-my-json-valid#custom-formats)).
+*	__formats__: JSON [schema](http://json-schema.org/) custom formats (see [jsen#custom-formats](https://github.com/bugventure/jsen#custom-formats)).
+*	__extSchemas__: hash containing external JSON [schemas](http://json-schema.org/) referenced by a main configuration `schema` (see [jsen#external-schemas](https://github.com/bugventure/jsen#external-schemas)).
 
 To specify `options`,
 
@@ -42,6 +43,10 @@ var config = etc({
 	'schema': require( '/path/to/schema.json' ),
 	'formats': {
 		'only-a': /^a+$/
+	},
+	'extSchemas': {
+		'ref_schema1': require( '/path/to/ref_schema1.json' ),
+		'ref_schema2': require( '/path/to/ref_schema2.json' )
 	}
 });
 ```
@@ -265,7 +270,7 @@ var out = config.validate();
 // returns true
 ```
 
-If a configuration is invalid, the method returns an `array` containing validation errors.
+If a configuration is invalid, the method returns an `array` containing validation [errors](https://github.com/bugventure/jsen#errors).
 
 ``` javascript
 // Invalid configuration:
@@ -277,11 +282,10 @@ The method accepts a `validator` function, which can be useful for validating ag
 
 ``` javascript
 // Example JSON schema validator:
-var validator = require( 'is-my-json-valid' );
+var validator = require( 'jsen' );
 
 var schema = require( '/path/to/schema.json' );
 var validate = validator( schema, {
-	'verbose': true,
 	'greedy': true
 });
 
@@ -343,6 +347,66 @@ config.load( './file.<my-ext>' );
 ```
 
 For more details, see [app-etc-load](https://github.com/kgryte/node-app-etc-load).
+
+
+---
+## Notes
+
+*	This module uses [jsen](https://github.com/bugventure/jsen) for validating an internal configuration `object` against a JSON [schema](http://json-schema.org/). One compelling feature of [jsen](https://github.com/bugventure/jsen) is the ability to extend a schema definition by specifying custom error [messages](https://github.com/bugventure/jsen#errors). For example, given the following schema,
+
+	``` javascript
+	{
+		"type": "object",
+		"definitions": {
+			"port": {
+				"description": "schema for a port",
+				"type": "integer",
+				"minimum": 1024,
+				"maximum": 65536,
+				"requiredMessage": "port is required",
+				"messages": {
+					"type": "invalid type. Must be an integer.",
+					"minimum": "invalid value. Must be an integer greater than or equal to 1024.",
+					"maximum": "invalid value. Must be an integer less than or equal to 65536."
+				}
+			}
+		},
+		"properties": {
+			"port": {
+				"$ref": "#/definitions/port"
+			}
+		},
+		"required": [
+			"port"
+		],
+		"messages": {
+			"type": "invalid data type where an object is expected"
+		}
+	}
+	```
+
+	validation will return more informative error messages based on [keywords](https://github.com/bugventure/jsen#custom-errors-for-keywords).
+
+	``` javascript
+	var validator = require( 'jsen' );
+
+	var validate = validator( schema );
+
+	var bool = validate({
+		'port': 80
+	})
+
+	console.dir( validate.errors );
+	/*
+		[
+			{
+				'path': 'port',
+				'keyword': 'minimum',
+				'message': 'invalid value. Must be an integer greater than or equal to 1024.'
+			}
+		]
+	*/
+	```
 
 
 ---

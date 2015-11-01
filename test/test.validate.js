@@ -5,7 +5,7 @@
 
 var chai = require( 'chai' ),
 	path = require( 'path' ),
-	validator = require( 'is-my-json-valid' ),
+	validator = require( 'jsen' ),
 	etc = require( './../lib' ),
 	validate = require( './../lib/validate.js' );
 
